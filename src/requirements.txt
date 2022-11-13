@@ -1,0 +1,4 @@
+picamera
+RPi
+opencv-python
+heupy
