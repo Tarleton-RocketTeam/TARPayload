@@ -1,6 +1,6 @@
 """
 
-    Sean Gunther
+    Sean Gunther: sean.gunther@go.tarleton.edu
     Teddy Oweh: teddy@teddyoweh.net
 """
 
@@ -38,9 +38,20 @@ class TARPayload:
           [0,0,1,1],
           [0,0,0,1],
           [1,0,0,1]
+        ]        
+        self.revHalfstep_seq:list = [
+          [1,0,0,0],
+          [1,0,0,1],
+          [0,0,0,1],
+          [0,0,1,1],
+          [0,0,1,0],
+          [0,1,1,0],
+          [0,1,0,0],
+          [1,1,0,0],
         ]
         '''
-        The above and below lists are the half step commands to turn the stepper.
+        The above lists are the half step commands to turn the stepper.
+        It is necessary to have both, we cannot iterate through the steps in reverse.
         It may be worth only using full steps for speed. either method will have sub-degree accuracy
         512 half steps is a full rotation
         half steps are 1.422 steps per degree
@@ -70,11 +81,13 @@ class TARPayload:
                     GPIO.output(self.control_pins_pan[pin], self.halfstep_seq[halfstep][pin])
                 time.sleep(0.001)
         print('[+] Turned the camera 60 degrees to the right')
-        
+    '''
+    For what its worth, function A1 and B2 might need to be changed to reflect the true direction of the motors. Im not sure how it will actually turn the camera.
+    '''
     # A1 Function    
     @staticmethod
     def a1Function(self):
-        """_summary_ : This function will take a picture and save it to the output folder.
+        """_summary_ : This function will turn the camera 60 degrees to the left.
         """
         for i in range(self.Dist):
             for halfstep in range(8):
@@ -86,7 +99,7 @@ class TARPayload:
     
     @staticmethod    
     def b2Function(self):
-        """_summary_ : This function will turn the camera 60 degrees to the left and capture an image.
+        """_summary_ : This function will turn the camera 60 degrees to the right and capture an image.
         """
         for i in range(self.Dist):
             for halfstep in range(8):
