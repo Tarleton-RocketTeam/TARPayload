@@ -1,5 +1,0 @@
-picamera
-RPi
-opencv-python
-heupy
-smbus
