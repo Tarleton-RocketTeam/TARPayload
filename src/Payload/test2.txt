@@ -1,0 +1,15 @@
+Enabled demodulators: AFSK1200
+AFSK1200: fm KI5ZFF-1 to APY300-0 UIv pid=F0
+:TYLER    :this better work{29
+AFSK1200: fm KI5ZFF-1 to APY300-0 UIv pid=F0
+:TYLER    :this better work part2{30
+AFSK1200: fm KI5ZFF-1 to APY300-0 UIv pid=F0
+:TYLER    :this better work{29
+AFSK1200: fm KI5ZFF-1 to APY300-0 UIv pid=F0
+:TYLER    :this better work part2{30
+AFSK1200: fm KI5ZFF-1 to APY300-0 UIv pid=F0
+:TYLER    :this better work part2{30
+AFSK1200: fm KI5ZFF-1 to APY300-0 UIv pid=F0
+:TYLER    :this better work part2{30
+AFSK1200: fm KI5ZFF-1 to APY300-0 UIv pid=F0
+:TYLER    :this better work part2{30

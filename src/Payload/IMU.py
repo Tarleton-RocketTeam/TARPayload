@@ -1,5 +1,10 @@
 import smbus
 bus = smbus.SMBus(1)
+#from lib.LSM9DS0 import *
+#from lib.LSM9DS1 import *
+#from lib.LSM6DSL import *
+#from lib.LIS3MDL import *
+
 from LSM9DS0 import *
 from LSM9DS1 import *
 from LSM6DSL import *
@@ -63,7 +68,7 @@ def detectIMU():
         print('')        #need to do something here, so we just print a space
     else:
         if (LSM6DSL_WHO_AM_I_response == 0x6A) and (LIS3MDL_WHO_AM_I_response == 0x3D):
-            print("Found BerryIMUv3 (LSM6DSL and LIS3MDL)")
+        #    print("Found BerryIMUv3 (LSM6DSL and LIS3MDL)")
             BerryIMUversion = 3
     time.sleep(1)
 
