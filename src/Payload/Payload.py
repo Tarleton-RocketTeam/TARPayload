@@ -79,6 +79,7 @@ class TARPayload(Communication):
         #global vars above--------------------------------------------------------------------------
         
         #int motor
+        self.logic()
         
     # these functions will push or pull the motor when called. will be used for both the actuator and motor. 
     def motor_push(self,forward,sleep):
@@ -269,7 +270,7 @@ class TARPayload(Communication):
         baseAccRange = (baseAcc * 0.95, baseAcc * 1.10)
         
         while checkAcc:
-            if baseAccRange[0] in range(payload.acceleration,baseAccRange[1]):
+            if baseAccRange[0] in range(self.acceleration,baseAccRange[1]):
                 checkAcc = False
         self.land(force=False,meth='push')
         self.start_reciever()
@@ -303,31 +304,10 @@ class TARPayload(Communication):
                 self.h8Function()
 
 # ===== Main Control =====
-payload = TARPayload()
-#payload.start_reciever() 
-payload.land()
+if __name__ == '__main__':
+    TARPayload()
 
 
 
-# ALTCEIL = payload.altitude * 1.10
-# 
-# baseAcc = payload.acceleration
-# baseAccRange = (baseAcc * 0.95, baseAcc * 1.
-# 
-# checkAcc = False
-# checkAlt = False
-# 
-# 
-# while True:
-#     if baseAccRange[0] < payload.acceleration < baseAccRange[1] and checkAcc == False:
-#         checkAcc = True
-#     if baseAltRange[0] < payload.altitude < baseAltRange[1] and checkAlt == False:
-#         checkAlt = True
-#     if thresGRange[0] < payload.acceleration < thresGRange[1] and checkAcc2 == False:
-#         checkAcc2 = True
-#     if checkAcc and checkAlt and checkAcc2:
-#         break
-# 
-# payload.land("push")
 
-# ===========================
+
