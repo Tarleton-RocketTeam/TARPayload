@@ -21,6 +21,11 @@ TODO:
     - Add a function the process the commands from the receiver into a list of commands and then execute them accordingly
 
 """
+
+
+fun
+
+
 class TARPayload(Communication):
     def __init__(self):
         """_summary_ : This is the constructor for the TARPayload class. It initializes the camera and the GPIO pins for the stepper motors.
@@ -91,7 +96,7 @@ class TARPayload(Communication):
         GPIO.output(backwards,GPIO.LOW)
 
     #this function will be called when the payload has sucfuly landed
-    def land(self,method):
+    def land(self):
         #Acuator pins
         in1= 23
         in2= 22
@@ -107,7 +112,7 @@ class TARPayload(Communication):
         GPIO.setup(in2,GPIO.OUT)
         GPIO.setup(in3,GPIO.OUT)
         GPIO.setup(in4,GPIO.OUT)
-        if method=='push':
+        if self.gyro_stat=='push':
             varm = in2
         else:
             varm = in1
@@ -235,7 +240,14 @@ class TARPayload(Communication):
         cmdList = list(mostCommonCommand.split(" "))
         cmdList = list(filter(fit, cmdList))
         return cmdList
-    
+    @property
+    def gyro_stat(self):
+        """
+        
+        """
+        vv = BerrySimple().important
+        return 'pull' if ((vv[0]**2)+(vv[1]**2)) in range(0,180) else  'push'
+
     def start_reciever(self):
         cmd="rtl_fm -f 144.950M -s 22050 |multimon-ng  -t raw -a AFSK1200 -f alpha /dev/stdin >test2.txt"
         subprocess.run(cmd,shell=True)
@@ -268,7 +280,8 @@ class TARPayload(Communication):
 
 # ===== Main Control =====
 payload = TARPayload()
-payload.start_reciever() 
+#payload.start_reciever() 
+payload.land()
 # ALTCEIL = payload.altitude * 1.10
 # 
 # baseAcc = payload.acceleration
