@@ -96,7 +96,7 @@ class TARPayload(Communication):
         GPIO.output(backwards,GPIO.LOW)
 
     #this function will be called when the payload has sucfuly landed
-    def land(self):
+    def land(self,force=True, meth='push'):
         #Acuator pins
         in1= 23
         in2= 22
@@ -112,7 +112,12 @@ class TARPayload(Communication):
         GPIO.setup(in2,GPIO.OUT)
         GPIO.setup(in3,GPIO.OUT)
         GPIO.setup(in4,GPIO.OUT)
-        if self.gyro_stat=='push':
+     
+        if force ==True:
+               method = self.gyro_stat
+        else:
+            method=meth
+        if method=='push':
             varm = in2
         else:
             varm = in1
@@ -252,7 +257,26 @@ class TARPayload(Communication):
         cmd="rtl_fm -f 144.950M -s 22050 |multimon-ng  -t raw -a AFSK1200 -f alpha /dev/stdin >test2.txt"
         subprocess.run(cmd,shell=True)
         return True
+    def logic(self):
+        """
+        Start Payload System
+        """
+        startalt = self.altitude
+        cieling = startalt*1.10
+        checkAcc = True
+        checkAlt = False
+        baseAcc = self.acceleration
+        baseAccRange = (baseAcc * 0.95, baseAcc * 1.10)
         
+        while checkAcc:
+            if baseAccRange[0] in range(payload.acceleration,baseAccRange[1]):
+                checkAcc = False
+        self.land(force=False,meth='push')
+        self.start_reciever()
+        self.deploy(self.command_parser)
+        
+    
+
     def deploy(self,cmdList):
         """_summary_ : This function takes in a string of list of commands  calls the appropriate functions to execute the commands.
 
@@ -282,6 +306,9 @@ class TARPayload(Communication):
 payload = TARPayload()
 #payload.start_reciever() 
 payload.land()
+
+
+
 # ALTCEIL = payload.altitude * 1.10
 # 
 # baseAcc = payload.acceleration
