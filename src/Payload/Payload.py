@@ -486,19 +486,20 @@ class TARPayload(Communication):
                     time.sleep(5)
                     self.log_data("[Logic] - 30 Second Wait Done")
                     self.land()
-                    try:
-                        self.start_reciever()
-                        f = open(self.signalFile, "r")
-                        size = len(f.readlines())
-                        f.close()
-                        while size <= 2:
-                            f = open(self.signalFile, "r")
-                            print(f"[Logic] - Length of Reciever Log File: {size}")
-                            size = len(f.readlines())
-                            f.close()
-                            self.start_reciever()
-                    except:
-                        self.backupcommands_deploy()
+                    # Cancelled receiver because of payload design flaw
+                    # try:
+                    #     self.start_reciever()
+                    #     f = open(self.signalFile, "r")
+                    #     size = len(f.readlines())
+                    #     f.close()
+                    #     while size <= 2:
+                    #         f = open(self.signalFile, "r")
+                    #         print(f"[Logic] - Length of Reciever Log File: {size}")
+                    #         size = len(f.readlines())
+                    #         f.close()
+                    #         self.start_reciever()
+                    # except:
+                    self.backupcommands_deploy()
                     break
                 
                         
