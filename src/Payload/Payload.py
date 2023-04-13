@@ -104,6 +104,7 @@ class TARPayload(Communication):
         self.accelerationMark = 0.005  # Set minimum acceleration condition (Note: Should be - 5)
         self.ceiling = 500  # Set ceiling to start payload deployment (Note: Should be - = self.baseAlt * 1.10])
         self.Dist = 85
+        self.backupcommands=['C3', 'A1', 'D4', 'C3', 'E5', 'A1', 'G7', 'C3', 'H8', 'A1', 'F6', 'C3'] # Hardcoded Commands
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.LED, GPIO.OUT)
@@ -440,7 +441,15 @@ class TARPayload(Communication):
         time.sleep(10)
         process.terminate()
         print("[Start Reciever] - Reciever Application Closed")
+ 
+    def backupcommands_deploy(self):
+        """Backs up the commands that are currently being run.
 
+        Returns
+        """
+        ## TODO: Make an arr
+        self.deploy(self.backupcommands)
+        
     def logic(self):
         """Payload deployment preperation."""
         self.LED_lights()
@@ -477,17 +486,22 @@ class TARPayload(Communication):
                     time.sleep(5)
                     self.log_data("[Logic] - 30 Second Wait Done")
                     self.land()
-                    self.start_reciever()
-                    f = open(self.signalFile, "r")
-                    size = len(f.readlines())
-                    f.close()
-                    while size <= 2:
+                    try:
+                        self.start_reciever()
                         f = open(self.signalFile, "r")
-                        print(f"[Logic] - Length of Reciever Log File: {size}")
                         size = len(f.readlines())
                         f.close()
-                        self.start_reciever()
+                        while size <= 2:
+                            f = open(self.signalFile, "r")
+                            print(f"[Logic] - Length of Reciever Log File: {size}")
+                            size = len(f.readlines())
+                            f.close()
+                            self.start_reciever()
+                    except:
+                        self.backupcommands_deploy()
                     break
+                
+                        
         self.log_data(f"[Logic] - Commands Parsed... Sending Commands!")
         self.deploy(self.command_parser())
 
