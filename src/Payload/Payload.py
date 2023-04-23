@@ -484,7 +484,7 @@ class TARPayload(Communication):
                     print("[Logic] - Rocket Acceleration Low")
                     self.log_data("[Logic] - Stand still Check Met")
                     time.sleep(5)
-                    self.log_data("[Logic] - 30 Second Wait Done")
+                    self.log_data("[Logic] - 5 Second Wait Done")
                     self.land()
                     # Cancelled receiver because of payload design flaw
                     # try:
@@ -499,12 +499,13 @@ class TARPayload(Communication):
                     #         f.close()
                     #         self.start_reciever()
                     # except:
+                    self.log_data(f"[Logic] - Commands Parsed... Sending Commands!")
                     self.backupcommands_deploy()
                     break
                 
                         
-        self.log_data(f"[Logic] - Commands Parsed... Sending Commands!")
-        self.deploy(self.command_parser())
+       
+        #self.deploy(self.command_parser())
 
     def deploy(self, cmdList: list[str]):
         """Takes in a list of commands and calls the appropriate functions to execute the commands.
